@@ -332,7 +332,14 @@ public class PipelineRunnerTest {
 
         @Override
         default InputSocket<?>[] createInputSockets(EventBus eventBus) {
-            return new InputSocket<?>[0];
+            return new InputSocket<?>[]{
+                    new InputSocket<Boolean>(new EventBus(), SocketHints.createBooleanSocketHint("Test val", false)) {
+                        @Override
+                        public boolean dirtied() {
+                            return true;
+                        }
+                    }
+            };
         }
 
         @Override

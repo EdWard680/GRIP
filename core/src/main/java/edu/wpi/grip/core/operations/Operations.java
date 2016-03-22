@@ -1,16 +1,17 @@
 package edu.wpi.grip.core.operations;
 
 import com.google.common.eventbus.EventBus;
+
 import edu.wpi.grip.core.events.OperationAddedEvent;
 import edu.wpi.grip.core.operations.composite.*;
 import edu.wpi.grip.core.operations.networktables.NTNumber;
 import edu.wpi.grip.core.operations.networktables.NTPublishOperation;
+import edu.wpi.grip.core.operations.networktables.NTGetOperation;
 import edu.wpi.grip.core.operations.networktables.NTVector2D;
 import edu.wpi.grip.core.operations.opencv.MatFieldAccessor;
 import edu.wpi.grip.core.operations.opencv.MinMaxLoc;
 import edu.wpi.grip.core.operations.opencv.NewPointOperation;
 import edu.wpi.grip.core.operations.opencv.NewSizeOperation;
-
 import static org.bytedeco.javacpp.opencv_core.*;
 
 public final class Operations {
@@ -42,6 +43,7 @@ public final class Operations {
         eventBus.post(new OperationAddedEvent(new NTPublishOperation<>(ContoursReport.class)));
         eventBus.post(new OperationAddedEvent(new NTPublishOperation<>(BlobsReport.class)));
         eventBus.post(new OperationAddedEvent(new NTPublishOperation<>(LinesReport.class)));
-        eventBus.post(new OperationAddedEvent(new PublishVideoOperation()));
+        eventBus.post(new OperationAddedEvent(new NTGetOperation<>(Number.class, 0)));
+		eventBus.post(new OperationAddedEvent(new PublishVideoOperation()));
     }
 }

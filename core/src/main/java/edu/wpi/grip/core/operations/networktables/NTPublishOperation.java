@@ -56,17 +56,9 @@ public class NTPublishOperation<S, T extends NTPublishable> implements Operation
         // Any accessor method with an @NTValue annotation can be published to NetworkTables.  We sort them by their
         // "weights" in order to avoid the issue of different JVM versions returning methods in a different order.
         this.ntValueMethods = ImmutableList.copyOf(Arrays.asList(reportType.getDeclaredMethods()).stream()
-                .filter(method -> method.getAnnotation(NTValue.class) != null)
+                .filter(method -> method.getAnnotation(NTValue.class) != null && method.getParameterCount() == 0)
                 .sorted(byWeight)
                 .iterator());
-
-        // In order for NTPublishOperation to call the accessor methods, they must all have no parameters
-        this.ntValueMethods.stream()
-                .filter(method -> method.getParameterCount() > 0)
-                .findAny()
-                .ifPresent(method -> {
-                    throw new IllegalArgumentException("@NTValue method must have 0 parameters: " + method);
-                });
 
         // The weight thing doesn't help us if two methods have the same weight, since the JVM could put them in either
         // order.

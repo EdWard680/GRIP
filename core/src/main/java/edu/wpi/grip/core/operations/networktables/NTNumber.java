@@ -9,8 +9,12 @@ import java.util.function.Function;
  */
 public class NTNumber implements NTPublishable {
 
-    private final double number;
+    private double number;
 
+    public NTNumber() {
+    	this(0.0);
+    }
+    
     public NTNumber(Number number) {
         this.number = number.doubleValue();
     }
@@ -18,5 +22,14 @@ public class NTNumber implements NTPublishable {
     @NTValue(weight = 0)
     public double getValue() {
         return number;
+    }
+    
+    public Number getNumber() {
+    	return number;
+    }
+    
+    @NTValue(weight = 1)
+    public void setValue(double val) {
+    	number = val;
     }
 }
